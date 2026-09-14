@@ -67,13 +67,9 @@ def sanitize_name(title):
     return name
 
 
-def preview_game():
+def preview_game(name_game):
     html_file = resource_path("assets/index.html")
-    name_game_app_alt = resource_path("assets/name-project-page.txt")
     icon_app_game = determine_app_icon()
-
-    with open(name_game_app_alt, "r", encoding="utf-8") as file:
-        name_game = file.read()
 
     width, height = 482, 440
 
@@ -84,10 +80,15 @@ def preview_game():
     except Exception:
         x, y = None, None
 
-    window = webview.create_window(
-        name_game, html_file, width=width, height=height, x=x, y=y
-    )
+    webview.create_window(name_game, html_file, width=width, height=height, x=x, y=y)
     webview.start(http_server=True, icon=icon_app_game)
+
+
+def run_build():
+    if sys.platform == "win32":
+        subprocess.run(["build.bat"], shell=True)
+    else:
+        subprocess.run(["build.sh"])
 
 
 def main():
@@ -118,20 +119,24 @@ def main():
     with open(name_game_app_alt, "w", encoding="utf-8") as file:
         file.write(title_alt)
 
-    choice = (
-        input('Type "test" to preview or "compile" to convert to EXE: ').strip().lower()
-    )
+    while True:
+        choice = (
+            input(
+                'Type "test" to preview or "compile" to convert to EXE (or "exit" to quit): '
+            )
+            .strip()
+            .lower()
+        )
 
-    if choice == "test":
-        preview_game()
-    elif choice == "compile":
-        if sys.platform == "win32":
-            subprocess.run(["build.bat"], shell=True)
+        if choice == "test":
+            preview_game(title_alt)
+        elif choice == "compile":
+            run_build()
+        elif choice == "exit":
+            break
         else:
-            subprocess.run(["build.sh"])
-    else:
-        print("Invalid user's input.")
-        sys.exit(1)
+            print("Invalid user's input.")
+            continue
 
 
 if __name__ == "__main__":
