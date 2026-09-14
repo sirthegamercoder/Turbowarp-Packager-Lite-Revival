@@ -23,6 +23,7 @@ base_args = [
     f'--specpath={script_dir / "export"}',
     f'--name={name_game}',
     '--clean',
+    '--exclude-module=setuptools',
 ]
 
 if sys.platform == "win32":
@@ -56,8 +57,6 @@ def zip_and_cleanup():
                 zipf.write(file_path, arcname)
 
     shutil.rmtree(app_dir)
-    print(f"Created archive: {zip_path}")
-    print(f"Removed directory: {app_dir}")
 
 
 if __name__ == "__main__":
