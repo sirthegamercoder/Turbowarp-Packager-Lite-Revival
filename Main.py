@@ -23,6 +23,28 @@ def determine_app_icon():
         return resource_path("assets/icon.png")
 
 
+def ensure_index_html():
+    main_dir = Path.cwd()
+    assets_dir = main_dir / "assets"
+    index_file = assets_dir / "index.html"
+
+    if index_file.exists():
+        return
+
+    html_files = sorted(assets_dir.glob("*.html"))
+    if not html_files:
+        print("Error: No HTML file found in assets directory.")
+        sys.exit(1)
+
+    source_file = html_files[0]
+    try:
+        source_file.rename(index_file)
+        print(f"Renamed '{source_file.name}' to 'index.html'.")
+    except OSError as e:
+        print(f"Error: Could not rename '{source_file.name}' to 'index.html': {e}")
+        sys.exit(1)
+
+
 def extract_title_from_html(html_file):
     with open(html_file, "r", encoding="utf-8") as f:
         content = f.read()
@@ -69,6 +91,8 @@ def preview_game():
 
 
 def main():
+    ensure_index_html()
+
     html_file = resource_path("assets/index.html")
     name_game_app = resource_path("assets/name-project.txt")
     name_game_app_alt = resource_path("assets/name-project-page.txt")

@@ -11,7 +11,7 @@ The features included in revival version are ability to convert Scratch/Turbowar
 
 ## How to Use
 1. Convert your Scratch/Turbowarp project to plain HTML in [Turbowarp Packager](https://packager.turbowarp.org/)
-2. Rename HTML file to `index.html` and move `index.html` to assets folder
+2. Rename HTML file to `index.html` (optional) and move HTML file (or `index.html`) to assets folder
 3. Click `run.bat` (Windows) or `run.sh` (MacOS/Linux)
 4. You can type test or compile to choose whether you want to preview or compile directly
 
