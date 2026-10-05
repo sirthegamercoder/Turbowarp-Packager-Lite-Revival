@@ -17,6 +17,9 @@ The features included in revival version are ability to convert Scratch/Turbowar
 
 You're done!
 
+> [!WARNING]
+> Unfortunately, Turbowarp Packager Lite Revival only support project with stage size of 480x360, so project with custom stage size are not supported, unlike original Turbowarp Packager.
+
 ## Credits
 - sirthegamercoder, Owner of Turbowarp Packager Lite Revival
 - Turbowarp Team, App icon
