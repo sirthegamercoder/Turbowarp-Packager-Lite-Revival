@@ -6,11 +6,11 @@ from PyInstaller.__main__ import run
 
 script_dir = Path(__file__).parent.absolute()
 
-name_game_path = script_dir / "assets" / "name-project.txt"
+name_game_path = script_dir / "name-project.txt"
 with open(name_game_path, "r") as file:
     name_game = file.read()
 
-name_game_alt_path = script_dir / "assets" / "name-project-page.txt"
+name_game_alt_path = script_dir / "name-project-page.txt"
 with open(name_game_alt_path, "r") as file:
     title = file.read()
 
@@ -27,18 +27,23 @@ base_args = [
 ]
 
 if sys.platform == "win32":
-    base_args.append(f'--icon={script_dir / "assets" / "icon.ico"}')
+    base_args.append(f'--icon={script_dir / "resources" / "app" / "icon.ico"}')
 elif sys.platform == "darwin":
-    base_args.append(f'--icon={script_dir / "assets" / "icon.icns"}')
+    base_args.append(f'--icon={script_dir / "resources" / "app" / "icon.icns"}')
 else:
     pass
 
 if sys.platform == "win32":
-    base_args.append(f'--add-data={script_dir / "assets"};assets/')
+    base_args.append(f'--add-data={script_dir / "resources" / "app"};resources/app/')
 else:
-    base_args.append(f'--add-data={script_dir / "assets"}:assets/')
+    base_args.append(f'--add-data={script_dir / "resources" / "app"}:resources/app/')
 
-base_args.append(str(script_dir / "app" / "window.py"))
+if sys.platform == "win32":
+    base_args.append(f'--add-data={script_dir / "name-project-page.txt"};.')
+else:
+    base_args.append(f'--add-data={script_dir / "name-project-page.txt"}:.')
+
+base_args.append(str(script_dir / "window.py"))
 
 
 def zip_and_cleanup():

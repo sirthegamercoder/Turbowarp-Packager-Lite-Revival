@@ -13,6 +13,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+export/
 build/
 develop-eggs/
 dist/
@@ -174,7 +175,10 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
+resources/app/assets/*
+!resources/app/icon.*
 index.html
+script.js
 name-project.txt
 name-project-page.txt
 

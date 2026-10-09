@@ -16,24 +16,24 @@ def resource_path(relative_path):
 
 def determine_app_icon():
     if sys.platform == "win32":
-        return resource_path("assets/icon.ico")
+        return resource_path("resources/app/icon.ico")
     elif sys.platform == "darwin":
-        return resource_path("assets/icon.icns")
+        return resource_path("resources/app/icon.icns")
     else:
-        return resource_path("assets/icon.png")
+        return resource_path("resources/app/icon.png")
 
 
 def ensure_index_html():
-    main_dir = Path.cwd()
-    assets_dir = main_dir / "assets"
-    index_file = assets_dir / "index.html"
+    root = Path.cwd()
+    main_dir = root / "resources" / "app"
+    index_file = main_dir / "index.html"
 
     if index_file.exists():
         return
 
-    html_files = sorted(assets_dir.glob("*.html"))
+    html_files = sorted(main_dir.glob("*.html"))
     if not html_files:
-        print("Error: No HTML file found in assets directory.")
+        print("Error: No HTML file found in resources/app directory.")
         sys.exit(1)
 
     source_file = html_files[0]
@@ -48,27 +48,22 @@ def ensure_index_html():
 def extract_title_from_html(html_file):
     with open(html_file, "r", encoding="utf-8") as f:
         content = f.read()
-
     tree = html.fromstring(content)
     title_elements = tree.xpath("//title/text()")
-
     if not title_elements:
         return None
-
     return title_elements[0].strip()
 
 
 def sanitize_name(title):
-    name = re.sub(r"\d+", "", title)
-    name = name.lower()
-    name = re.sub(r"\s+", "-", name)
-    name = re.sub(r"-+", "-", name)
-    name = name.strip("-")
-    return name
+    name = re.sub(r"[^\-a-zA-Z ]", "", title)
+    name = name.strip()
+    name = name.replace(" ", "-")
+    return name.lower()
 
 
 def preview_game(name_game):
-    html_file = resource_path("assets/index.html")
+    html_file = resource_path("resources/app/index.html")
     icon_app_game = determine_app_icon()
 
     width, height = 482, 440
@@ -81,7 +76,7 @@ def preview_game(name_game):
         x, y = None, None
 
     webview.create_window(name_game, html_file, width=width, height=height, x=x, y=y)
-    webview.start(http_server=True, icon=icon_app_game)
+    webview.start(icon=icon_app_game, http_server=True)
 
 
 def run_build():
@@ -94,9 +89,9 @@ def run_build():
 def main():
     ensure_index_html()
 
-    html_file = resource_path("assets/index.html")
-    name_game_app = resource_path("assets/name-project.txt")
-    name_game_app_alt = resource_path("assets/name-project-page.txt")
+    html_file = resource_path("resources/app/index.html")
+    name_game_app = resource_path("name-project.txt")
+    name_game_app_alt = resource_path("name-project-page.txt")
 
     title = extract_title_from_html(html_file)
     if not title:

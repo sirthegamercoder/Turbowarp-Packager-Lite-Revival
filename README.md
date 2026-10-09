@@ -10,8 +10,8 @@ The features included in revival version are ability to convert Scratch/Turbowar
 </div>
 
 ## How to Use
-1. Convert your Scratch/Turbowarp project to plain HTML in [Turbowarp Packager](https://packager.turbowarp.org/)
-2. Rename HTML file to `index.html` (optional) and move HTML file (or `index.html`) to assets folder
+1. Convert your Scratch/Turbowarp project to zip in [Turbowarp Packager](https://packager.turbowarp.org/)
+2. Extract files of zip to resources/app folder
 3. Click `run.bat` (Windows) or `run.sh` (MacOS/Linux)
 4. You can type test, compile or exit to choose whether you want to preview the game, compile to EXE, or close the window
 
