@@ -9,6 +9,9 @@ The features included in revival version are ability to convert Scratch/Turbowar
 
 </div>
 
+> [!NOTE]
+> The folder structure in resources/app is almost identical to original Turbowarp Packager folder structure
+
 ## How to Use
 1. Convert your Scratch/Turbowarp project to zip in [Turbowarp Packager](https://packager.turbowarp.org/)
 2. Extract files of zip to resources/app folder
