@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import sys
 import webview
 
@@ -10,23 +11,20 @@ def resource_path(relative_path):
         base_path = Path.cwd()
     return str(base_path / relative_path)
 
-
-def determine_app_icon():
+def determine_icon():
     if sys.platform == "win32":
-        return resource_path("resources/app/icon.ico")
-    elif sys.platform == "darwin":
-        return resource_path("resources/app/icon.icns")
+        return resource_path("icon.ico")
     else:
         return resource_path("resources/app/icon.png")
 
-
 def main():
     html_file = resource_path("resources/app/index.html")
-    name_game_app_alt = resource_path("name-project-page.txt")
-    icon_app_game = determine_app_icon()
+    name_game_app = resource_path("resources/app/package.json")
+    icon_app_game = determine_icon()
 
-    with open(name_game_app_alt, "r", encoding="utf-8") as file:
-        name_game = file.read()
+    with open(name_game_app, "r", encoding="utf-8") as file:
+        data = json.load(file)
+        name_game = data["name"]
 
     width, height = 482, 440
 

@@ -176,7 +176,8 @@ poetry.toml
 pyrightconfig.json
 
 resources/app/assets/*
-!resources/app/icon.*
+!resources/app/icon.png
+resources/app/package.json
 index.html
 script.js
 name-project.txt

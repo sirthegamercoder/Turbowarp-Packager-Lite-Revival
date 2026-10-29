@@ -3,6 +3,7 @@ import shutil
 import zipfile
 from pathlib import Path
 from PyInstaller.__main__ import run
+from setuptools import setup
 
 script_dir = Path(__file__).parent.absolute()
 
@@ -18,18 +19,13 @@ base_args = [
     "--noconfirm",
     "--onedir",
     "--windowed",
-    f'--distpath={script_dir / "export" / "dist"}',
-    f'--workpath={script_dir / "export" / "build"}',
-    f'--specpath={script_dir / "export"}',
     f"--name={name_game}",
     "--clean",
     "--exclude-module=setuptools",
 ]
 
 if sys.platform == "win32":
-    base_args.append(f'--icon={script_dir / "resources" / "app" / "icon.ico"}')
-elif sys.platform == "darwin":
-    base_args.append(f'--icon={script_dir / "resources" / "app" / "icon.icns"}')
+    base_args.append(f'--icon={script_dir / "icon.ico"}')
 else:
     pass
 
@@ -38,16 +34,25 @@ if sys.platform == "win32":
 else:
     base_args.append(f'--add-data={script_dir / "resources" / "app"}:resources/app/')
 
-if sys.platform == "win32":
-    base_args.append(f'--add-data={script_dir / "name-project-page.txt"};.')
-else:
-    base_args.append(f'--add-data={script_dir / "name-project-page.txt"}:.')
-
 base_args.append(str(script_dir / "window.py"))
 
+def compile_for_macos():
+    APP = ['window.py']
+    DATA_FILES = ["resources/app"]
+    OPTIONS = {
+        'argv_emulation': True,
+        'iconfile': 'icon.icns',
+    }
+
+    setup(
+        app=APP,
+        data_files=DATA_FILES,
+        options={'py2app': OPTIONS},
+        setup_requires=['py2app'],
+    )
 
 def zip_and_cleanup():
-    dist_dir = script_dir / "export" / "dist"
+    dist_dir = script_dir / "dist"
     app_dir = dist_dir / name_game
     zip_path = dist_dir / f"{title}.zip"
 
@@ -65,5 +70,9 @@ def zip_and_cleanup():
 
 
 if __name__ == "__main__":
-    run(base_args)
+    if sys.platform == "win32" or sys.platform == "linux":
+        run(base_args)
+    else:
+        compile_for_macos()
+        
     zip_and_cleanup()

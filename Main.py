@@ -16,9 +16,7 @@ def resource_path(relative_path):
 
 def determine_app_icon():
     if sys.platform == "win32":
-        return resource_path("resources/app/icon.ico")
-    elif sys.platform == "darwin":
-        return resource_path("resources/app/icon.icns")
+        return resource_path("icon.ico")
     else:
         return resource_path("resources/app/icon.png")
 
