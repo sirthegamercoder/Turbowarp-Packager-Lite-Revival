@@ -180,8 +180,8 @@ resources/app/assets/*
 resources/app/package.json
 index.html
 script.js
-name-project.txt
-name-project-page.txt
+temp/*
+!temp/readme.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 

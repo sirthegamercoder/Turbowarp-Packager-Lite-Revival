@@ -1,0 +1,1 @@
+This directory contains a game name in two files that are used to name the app. This is just a placeholder for now. 

@@ -15,7 +15,7 @@ The features included in revival version are ability to convert Scratch/Turbowar
 ## How to Use
 1. Convert your Scratch/Turbowarp project to zip in [Turbowarp Packager](https://packager.turbowarp.org/)
 2. Extract files of zip to resources/app folder
-3. Click `run.bat` (Windows) or `run.sh` (MacOS/Linux)
+3. Click `run.bat` (Windows) or `run.sh` (MacOS/Linux) in scripts folder
 4. You can type test, compile or exit to choose whether you want to preview the game, compile to EXE, or close the window
 
 You're done!

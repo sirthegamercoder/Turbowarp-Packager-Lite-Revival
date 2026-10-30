@@ -13,16 +13,18 @@ def resource_path(relative_path):
 
 def determine_icon():
     if sys.platform == "win32":
-        return resource_path("icon.ico")
+        return resource_path("icons/icon.ico")
+    elif sys.platform == "darwin":
+        return resource_path("icons/icon.icns")
     else:
         return resource_path("resources/app/icon.png")
 
 def main():
     html_file = resource_path("resources/app/index.html")
-    name_game_app = resource_path("resources/app/package.json")
-    icon_app_game = determine_icon()
+    name_app = resource_path("resources/app/package.json")
+    icon_app = determine_icon()
 
-    with open(name_game_app, "r", encoding="utf-8") as file:
+    with open(name_app, "r", encoding="utf-8") as file:
         data = json.load(file)
         name_game = data["name"]
 
@@ -38,7 +40,7 @@ def main():
     window = webview.create_window(
         name_game, html_file, width=width, height=height, x=x, y=y
     )
-    webview.start(icon=icon_app_game, http_server=True)
+    webview.start(icon=icon_app, http_server=True)
 
 
 if __name__ == "__main__":

@@ -1,4 +1,5 @@
 from pathlib import Path
+import json
 import sys
 import re
 import webview
@@ -14,9 +15,11 @@ def resource_path(relative_path):
     return str(base_path / relative_path)
 
 
-def determine_app_icon():
+def determine_icon():
     if sys.platform == "win32":
-        return resource_path("icon.ico")
+        return resource_path("icons/icon.ico")
+    elif sys.platform == "darwin":
+        return resource_path("icons/icon.icns")
     else:
         return resource_path("resources/app/icon.png")
 
@@ -62,7 +65,7 @@ def sanitize_name(title):
 
 def preview_game(name_game):
     html_file = resource_path("resources/app/index.html")
-    icon_app_game = determine_app_icon()
+    icon_app = determine_icon()
 
     width, height = 482, 440
 
@@ -74,22 +77,22 @@ def preview_game(name_game):
         x, y = None, None
 
     webview.create_window(name_game, html_file, width=width, height=height, x=x, y=y)
-    webview.start(icon=icon_app_game, http_server=True)
+    webview.start(icon=icon_app, http_server=True)
 
 
 def run_build():
     if sys.platform == "win32":
-        subprocess.run(["build.bat"], shell=True)
+        subprocess.run(["build.bat"], cwd="scripts", shell=True)
     else:
-        subprocess.run(["build.sh"])
+        subprocess.run(["build.sh"], cwd="scripts")
 
 
 def main():
     ensure_index_html()
 
     html_file = resource_path("resources/app/index.html")
-    name_game_app = resource_path("name-project.txt")
-    name_game_app_alt = resource_path("name-project-page.txt")
+    name_app = resource_path("temp/name-project.txt")
+    name_app_alt = resource_path("temp/name-project-page.txt")
 
     title = extract_title_from_html(html_file)
     if not title:
@@ -101,7 +104,7 @@ def main():
         print("Error: Project name is empty after sanitization.")
         sys.exit(1)
 
-    with open(name_game_app, "w", encoding="utf-8") as file:
+    with open(name_app, "w", encoding="utf-8") as file:
         file.write(project_name)
 
     title_alt = extract_title_from_html(html_file)
@@ -109,8 +112,19 @@ def main():
         print("Error: Could not find a <title> in index.html")
         sys.exit(1)
 
-    with open(name_game_app_alt, "w", encoding="utf-8") as file:
+    with open(name_app_alt, "w", encoding="utf-8") as file:
         file.write(title_alt)
+
+    with open(name_app_alt, "r", encoding="utf-8") as file:
+        name_game = file.read()
+
+    data = {
+        "name": name_game,
+        "version": "1.0.0"
+    }
+
+    with open("resources/app/package.json", "w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4)
 
     while True:
         choice = (
