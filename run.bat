@@ -5,7 +5,7 @@ if exist ".venv\" (
 ) else (
     python -m venv .venv
     call .venv\Scripts\activate.bat
-    pip install -r src\requirements.txt
+    pip install pywebview lxml pyinstaller
 )
 
 python src\Main.py

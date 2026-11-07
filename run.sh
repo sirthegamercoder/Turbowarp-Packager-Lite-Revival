@@ -6,7 +6,7 @@ if [ -d ".venv" ]; then
 else
     python3 -m venv .venv
     source .venv/bin/activate
-    pip install -r src/requirements.txt
+    pip install pywebview lxml pyinstaller
 fi
 
 python3 src/Main.py

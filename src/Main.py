@@ -82,9 +82,9 @@ def preview_game(name_game):
 
 def run_build():
     if sys.platform == "win32":
-        subprocess.run(["build.bat"], cwd="scripts", shell=True)
+        subprocess.run(["build.bat"], shell=True)
     else:
-        subprocess.run(["build.sh"], cwd="scripts")
+        subprocess.run(["build.sh"])
 
 
 def main():
